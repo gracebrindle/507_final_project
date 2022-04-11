@@ -21,8 +21,8 @@ oauth = OAuth1(client_key,
             resource_owner_key=access_token,
             resource_owner_secret=access_token_secret)
 
-cache_filename = "cache.json"
-cache_dict = {}
+CACHE_FILENAME = "cache.json"
+CACHE_DICT = {}
 
 class_dict = {}
 
@@ -49,12 +49,13 @@ def open_cache():
     The opened cache
     '''
     try:
-        cache_file = open(cache_filename, 'r')
+        cache_file = open(CACHE_FILENAME, 'r')
         cache_contents = cache_file.read()
         cache_dict = json.loads(cache_contents)
         cache_file.close()
     except:
         cache_dict = {}
+
     return cache_dict
 
 def save_cache(cache_dict):
@@ -69,7 +70,7 @@ def save_cache(cache_dict):
     None
      '''
     dumped_json_cache = json.dumps(cache_dict)
-    fw = open(cache_filename,"w")
+    fw = open(CACHE_FILENAME,"w")
     fw.write(dumped_json_cache)
     fw.close()
 
@@ -130,14 +131,14 @@ def make_request_with_cache(baseurl, params):
         the results of the query as a Python object loaded from JSON
     '''
     request_key = construct_unique_key(baseurl, params)
-    if request_key in cache_dict.keys():
+    if request_key in CACHE_DICT.keys():
         print("cache hit!", request_key)
-        return cache_dict[request_key]
+        return CACHE_DICT[request_key]
     else:
         print("cache miss!", request_key)
-        cache_dict[request_key] = make_request(baseurl, params)
-        save_cache(cache_dict)
-        return cache_dict[request_key]
+        CACHE_DICT[request_key] = make_request(baseurl, params)
+        save_cache(CACHE_DICT)
+        return CACHE_DICT[request_key]
 
 def search_following(account_id):
     '''Retrieve a list of a user's friends from the Twitter API. 
@@ -153,8 +154,9 @@ def search_following(account_id):
     string
         the results of the query as a Python object loaded from JSON
     '''
-    baseurl = "https://api.twitter.com/1.1/friends/ids.json"
-    params = {'account_id': account_id}
+    CACHE_DICT = open_cache()
+    baseurl = "https://api.twitter.com/1.1/friends/list.json"
+    params = {'user_id': account_id}
     results = make_request_with_cache(baseurl, params)
     return results
 
@@ -196,13 +198,15 @@ def search(politician, class_dict):
         print("")
 
         # Fetch a list of friends from the Twitter API using the account ID
-        friend_list = search_following(class_dict[politician].account_id)
+        friend_list = search_following(str(class_dict[politician].account_id))
         politician_friend_list = []
 
         # Include only other politicians in the list of results
         for friend in friend_list:
             if friend in class_dict:
                 politician_friend_list.append(friend)
+
+        return friend_list
         
     else:
         print("")
@@ -212,7 +216,7 @@ def search(politician, class_dict):
 
 def main():
     prompt(class_dict)
-    cache_dict = open_cache()
+    
     
 if __name__ == "__main__":
     main()
