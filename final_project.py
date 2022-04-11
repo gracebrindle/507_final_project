@@ -55,9 +55,6 @@ def prompt(class_dict):
 
 # # Implement a breadth-first search function
 def search(politician, class_dict):
-    
-    visited_set = set()
-    queue = deque()
 
     if politician in class_dict:
 
