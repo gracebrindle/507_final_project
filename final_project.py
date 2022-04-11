@@ -66,27 +66,13 @@ def search(politician, class_dict):
         print("")
 
         # Fetch a list of friends from the Twitter API using the account ID
-        class_dict[politician].search_following()
-        
-    #     for movie in class_dict[politician]:
-    #         queue.append((movie, [movie]))
-    #         visited_set.add(movie)
-        
-    #     while queue:
-    #         data = queue.popleft()
-    #         data_name = data[0]
-    #         data_path = data[1]
-            
-    #         if data_name == actorB:
-    #             print("Found actor link")
-    #             prompt(data_dict)
-    #             return data_path
+        friend_list = class_dict[politician].search_following()
+        politician_friend_list = []
 
-    #         else:
-    #             for i in class_dict[data_name]:
-    #                 if i not in visited_set:
-    #                     queue.append((i, data_path + [i]))
-    #                     visited_set.add(i)
+        # Include only other politicians in the list of results
+        for friend in friend_list:
+            if friend in class_dict:
+                politician_friend_list.append(friend)
         
     else:
         print("")
@@ -103,8 +89,6 @@ def bearer_oauth(r):
     return r
 
 def main():
-    # json_response = search_following('18189966')
-    # print(json.dumps(json_response, indent=4, sort_keys=True))
     prompt(class_dict)
     
 if __name__ == "__main__":
