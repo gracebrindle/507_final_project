@@ -196,7 +196,7 @@ def search(politician, class_dict):
         print("")
 
         # Fetch a list of friends from the Twitter API using the account ID
-        friend_list = class_dict[politician].search_following()
+        friend_list = search_following(class_dict[politician].account_id)
         politician_friend_list = []
 
         # Include only other politicians in the list of results
