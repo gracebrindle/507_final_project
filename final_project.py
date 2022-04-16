@@ -10,7 +10,15 @@ import networkx as nx
 # Open CSV files
 with open("/Users/gracebrindle/Desktop/si507/final_project/politician_dataset.csv", newline='') as f:
     reader = csv.reader(f)
-    data = list(reader) 
+    politician_data = list(reader) 
+
+with open("/Users/gracebrindle/Desktop/si507/final_project/senate_sponsorship_analysis.csv", newline='') as f:
+    reader = csv.reader(f)
+    senate_data = list(reader) 
+
+with open("/Users/gracebrindle/Desktop/si507/final_project/house_sponsorship_analysis.csv", newline='') as f:
+    reader = csv.reader(f)
+    house_data = list(reader) 
 
 # Initialize global variables
 bearer_token = TwitterKeys.Bearer_Token
@@ -37,10 +45,11 @@ class Politician:
          self.sex = sex
          self.birthplace = birthplace
          self.age = age
-         self.political_party = political_party 
+         self.political_party = political_party
+
 
 # Loop through the data and create a Politician object for each row of data
-for politician in data[1:]:
+for politician in politician_data[1:]:
     new_politician = Politician(politician[0], politician[1], politician[3], politician[4], politician[5], politician[7], politician[9])
     # Append the Politician class to a dictionary
     class_dict_by_name[new_politician.name] = new_politician.account_id
@@ -224,11 +233,12 @@ def search(politician):
     if politician in class_dict_by_name:
 
         print("")
-        print("Commencing search...")
+        print("Commencing search for " + politician + "...")
         print("")
 
         # Fetch a list of friends from the Twitter API using the account ID
         politician_id = class_dict_by_name[politician]
+        print("Twitter account located: " + politician_id)
         friend_results = search_following(str(politician_id))
 
         friend_ids = []
@@ -236,7 +246,14 @@ def search(politician):
             if str(account_id) in class_dict_by_id:
                 friend_ids.append(account_id)
 
-        print(friend_ids)
+        friend_objects = []
+        for id in friend_ids:
+            friend_objects.append(class_dict_by_id[str(id)])
+        
+        print("")
+        print(politician + " follows:")
+        for friend in friend_objects:
+            print(friend.name + ", " + friend.political_party)
 
         return friend_results
         
