@@ -5,6 +5,7 @@ import TwitterKeys
 from requests_oauthlib import OAuth1
 from collections import deque
 from pyvis.network import Network
+from IPython.core.display import display, HTML
 import networkx as nx
 
 # Open CSV files
@@ -216,7 +217,7 @@ def prompt():
     else:
         search(politician)
 
-# # Implement a breadth-first search function
+# Search for the network of a particular politician
 def search(politician):
     '''Implements a breadth-first search to create a network
 
@@ -227,8 +228,8 @@ def search(politician):
 
     Returns
     -------
-    friend_list
-        list of account IDs that the politician follows on Twitter'''
+    friend_objects
+        list of accounts (Politician objects) that the politician follows on Twitter'''
     
     if politician in class_dict_by_name:
 
@@ -238,6 +239,7 @@ def search(politician):
 
         # Fetch a list of friends from the Twitter API using the account ID
         politician_id = class_dict_by_name[politician]
+        politician_object = class_dict_by_id[politician_id]
         print("Twitter account located: " + politician_id)
         friend_results = search_following(str(politician_id))
 
@@ -255,13 +257,45 @@ def search(politician):
         for friend in friend_objects:
             print(friend.name + ", " + friend.political_party)
 
-        return friend_results
+        create_network(friend_objects, politician_object)
         
     else:
         print("")
         print("Error: Could not locate the politician's Twitter account. Please re-enter the politician's name")
         print("")
         prompt()
+
+def create_network(friend_objects, politician_object):
+    network = Network(height='750px', width='100%', bgcolor='#222222', font_color='white', heading="Twitter Network of American Politician " + politician_object.name)
+
+    if politician_object.political_party == "Democratic Party":
+        central_node_color = "blue"
+    elif politician_object.political_party == "Republican Party":
+        central_node_color = "red"
+    else:
+        central_node_color = "yellow"
+
+    network.add_node(politician_object.account_id,
+                    label=politician_object.name,
+                    color=central_node_color)
+
+
+    for object in friend_objects:
+        if object.political_party == "Democratic Party":
+            node_color = "blue"
+        elif object.political_party == "Republican Party":
+            node_color = "red"
+        else:
+            node_color = "yellow"
+
+        network.add_node(object.account_id, 
+                         label=object.name, 
+                         color=node_color)
+
+        network.add_edge(politician_object.account_id, object.account_id)
+        
+    network.show('/Users/gracebrindle/Desktop/si507/final_project/' + politician_object.twitter_username + '_twitter_network.html')
+    print(network)
 
 def main():
     prompt()
