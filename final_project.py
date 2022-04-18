@@ -5,7 +5,6 @@ import TwitterKeys
 from requests_oauthlib import OAuth1
 from collections import deque
 from pyvis.network import Network
-from IPython.core.display import display, HTML
 import networkx as nx
 
 # Open CSV files
@@ -32,7 +31,7 @@ oauth = OAuth1(client_key,
             resource_owner_key=access_token,
             resource_owner_secret=access_token_secret)
 
-CACHE_FILENAME = "cache.json"
+CACHE_FILENAME = "/Users/gracebrindle/Desktop/si507/final_project/cache.json"
 CACHE_DICT = {}
 
 class_dict_by_name = {}
@@ -215,11 +214,11 @@ def prompt():
         exit()
     
     else:
-        search(politician)
+        create_network(politician)
 
 # Search for the network of a particular politician
 def search(politician):
-    '''Implements a breadth-first search to create a network
+    '''Finds the input politician in the dataset and returns necessary objects
 
     Parameters
     ----------
@@ -229,8 +228,12 @@ def search(politician):
     Returns
     -------
     friend_objects
-        list of accounts (Politician objects) that the politician follows on Twitter'''
+        list of accounts (Politician objects) that the politician follows on Twitter
+        
+    politician_object
+        the Politician object that is connected to the input politician'''
     
+    # Verify that the politician is in the dataset
     if politician in class_dict_by_name:
 
         print("")
@@ -243,11 +246,13 @@ def search(politician):
         print("Twitter account located: " + politician_id)
         friend_results = search_following(str(politician_id))
 
+        # Filter the friends by accounts that are in the dataset
         friend_ids = []
         for account_id in friend_results["ids"]:
             if str(account_id) in class_dict_by_id:
                 friend_ids.append(account_id)
 
+        # Convert the friend IDs into objects and store them in a list
         friend_objects = []
         for id in friend_ids:
             friend_objects.append(class_dict_by_id[str(id)])
@@ -257,7 +262,7 @@ def search(politician):
         for friend in friend_objects:
             print(friend.name + ", " + friend.political_party)
 
-        create_network(friend_objects, politician_object)
+        return friend_objects, politician_object
         
     else:
         print("")
@@ -265,37 +270,80 @@ def search(politician):
         print("")
         prompt()
 
-def create_network(friend_objects, politician_object):
+def create_network(politician):
+    visited_set = set()
+    queue = deque()
+    count = 0 
+
+    friend_objects, politician_object = search(politician)
+    queue.append(politician_object)
     network = Network(height='750px', width='100%', bgcolor='#222222', font_color='white', heading="Twitter Network of American Politician " + politician_object.name)
+    network.repulsion(node_distance=500, spring_length=200)
+    # *** TO DO **** 
+    # Add arrows to edges going in the direction of 'to'
+    # Change color of edge when selected to something more visible
+    # Change color of edges to white
+    # Add ideology scale and state
+    # Differentiate primary politicians from friends (node border?)
 
-    if politician_object.political_party == "Democratic Party":
-        central_node_color = "blue"
-    elif politician_object.political_party == "Republican Party":
-        central_node_color = "red"
-    else:
-        central_node_color = "yellow"
+    while queue and count < 15:
+        count += 1
+        current_politician = queue.popleft()
+        friend_objects, politician_object = search(current_politician.name)
 
-    network.add_node(politician_object.account_id,
-                    label=politician_object.name,
-                    color=central_node_color)
-
-
-    for object in friend_objects:
-        if object.political_party == "Democratic Party":
-            node_color = "blue"
-        elif object.political_party == "Republican Party":
-            node_color = "red"
+        if current_politician.political_party == "Democratic Party" or "California Democratic Party" or "Utah Democratic Party" or "Minnesota Democratic-Farmer-Labor Party" or "Maine Democratic Party":
+            central_node_color = "blue"
+        elif current_politician.political_party == "Republican Party" or "Republican Party of Iowa" or "Oregon Republican Party" or "Colorado Republican Party" or "California Republican Party":
+            central_node_color = "red"
         else:
-            node_color = "yellow"
+            central_node_color = "yellow"
 
-        network.add_node(object.account_id, 
-                         label=object.name, 
-                         color=node_color)
 
-        network.add_edge(politician_object.account_id, object.account_id)
-        
-    network.show('/Users/gracebrindle/Desktop/si507/final_project/' + politician_object.twitter_username + '_twitter_network.html')
+        network.add_node(current_politician.account_id,
+                        label=current_politician.name,
+                        color=central_node_color,
+                        borderWidth='3px',
+                        title='<h1>' + current_politician.name+'</h1>' + 
+                                '<ul>' + 
+                                '<li>Twitter username: '+ current_politician.twitter_username + '</li>'
+                                '<li>Party: ' + current_politician.political_party + '</li>'
+                                '<li>Age: ' + current_politician.age + '</li>'
+                                '<li>Gender: ' + current_politician.sex + '</li>')
+    
+        visited_set.add(current_politician.account_id)
+
+        for object in friend_objects:
+            if object.political_party == "Democratic Party":
+                node_color = "blue"
+            elif object.political_party == "Republican Party":
+                node_color = "red"
+            else:
+                node_color = "yellow"
+
+            if object.account_id not in visited_set:
+                network.add_node(object.account_id, 
+                                label=object.name, 
+                                color=node_color,
+                                title='<h1>' + object.name+'</h1>' + 
+                                '<ul>' + 
+                                '<li>Twitter username: '+ object.twitter_username + '</li>'
+                                '<li>Party: ' + object.political_party + '</li>'
+                                '<li>Age: ' + object.age + '</li>'
+                                '<li>Gender: ' + object.sex + '</li>')
+
+                queue.append(object)
+
+            network.add_edge(current_politician.account_id, object.account_id)
+
+    for node in network.nodes:
+        # node['size'] = str(len(network.neighbors(node['id'])) * 10) + 'px',
+        node['title'] += "<br>Neighbors: <ul>"
+        for neighbor in network.neighbors(node['id']):
+            node['title'] += '<li>' + class_dict_by_id[neighbor].name + '</li>'
+        node['title'] += "</ul>"
+
     print(network)
+    network.show('/Users/gracebrindle/Desktop/si507/final_project/' + politician + '_twitter_network.html')
 
 def main():
     prompt()
