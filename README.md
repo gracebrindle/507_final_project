@@ -3,6 +3,14 @@
 This program visualizes a network for a given American politician 
 based on who that politician follows on Twitter.
 
+# Packages
+The program uses the following packages:
+- csv
+- json
+- requests
+- deque
+- Pyvis
+
 # API Authentication
 The program uses the Twitter API with oAuth to conduct the search. To run 
 the program, the user should have a separate file called TwitterKeys.py 
