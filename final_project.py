@@ -385,7 +385,6 @@ def create_network(politician):
         node['title'] += "</ul>"
 
     print(network)
-    network.show_buttons(filter_=True)
     network.show('/Users/gracebrindle/Desktop/si507/final_project/' + politician + '_twitter_network.html')
 
 def main():
