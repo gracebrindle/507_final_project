@@ -275,27 +275,39 @@ def search(politician):
 
     return friend_objects, politician_object
     
-
+# Create a visual representation of the politician's Twitter network
 def create_network(politician):
+    '''Creates a network using Pyvis that displays who a politician follows on Twitter
+    Implements breadth-first search
+    Returns an HTML file with the network
+
+    Parameters
+    ----------
+    politician: string
+        name of the politician to search
+
+    Returns
+    -------
+    None'''
+    
+    # Initialize local variables
     visited_set = set()
     queue = deque()
     count = 0 
 
+    # Search politician, append it to the queue, and create network with Pyvis
     friend_objects, politician_object = search(politician)
     queue.append(politician_object)
     network = Network(height='750px', width='100%', bgcolor='#222222', font_color='white', heading="Twitter Network of American Politician " + politician_object.name)
     network.repulsion(node_distance=500, spring_length=200)
-    # *** TO DO **** 
-    # Add arrows to edges going in the direction of 'to'
-    # Change color of edge when selected to something more visible
-    # Change color of edges to white
-    # Differentiate primary politicians from friends (node border?)
 
+    # Conduct breadth-first search for first 14 friends
     while queue and count < 15:
         count += 1
         current_politician = queue.popleft()
         friend_objects, politician_object = search(current_politician.name)
 
+        # Set proper node color based on political party
         if current_politician.political_party == "Democratic Party" or "California Democratic Party" or "Utah Democratic Party" or "Minnesota Democratic-Farmer-Labor Party" or "Maine Democratic Party":
             central_node_color = "blue"
         elif current_politician.political_party == "Republican Party" or "Republican Party of Iowa" or "Oregon Republican Party" or "Colorado Republican Party" or "California Republican Party":
@@ -303,6 +315,7 @@ def create_network(politician):
         else:
             central_node_color = "yellow"
 
+        # Display additional information if politician is a senator
         if current_politician.position == "United States Senator":
             title_to_display = ('<h1>' + current_politician.name+'</h1>' + 
                                 '<ul>' + 
@@ -325,6 +338,7 @@ def create_network(politician):
                                 '<li>Age: ' + current_politician.age + '</li>'
                                 '<li>Gender: ' + current_politician.sex + '</li>')
 
+        # Add a node for the primary politician
         network.add_node(current_politician.account_id,
                         label=current_politician.name,
                         color=central_node_color,
@@ -333,6 +347,7 @@ def create_network(politician):
     
         visited_set.add(current_politician.account_id)
 
+        # Add styling information for friend nodes
         for object in friend_objects:
             if object.political_party == "Democratic Party":
                 node_color = "blue"
@@ -363,6 +378,7 @@ def create_network(politician):
                                     '<li>Age: ' + object.age + '</li>'
                                     '<li>Gender: ' + object.sex + '</li>')
 
+            # Add node for each friend
             if object.account_id not in visited_set:
                 network.add_node(object.account_id, 
                                     label=object.name, 
@@ -374,18 +390,19 @@ def create_network(politician):
 
                 network.add_edge(current_politician.account_id, object.account_id)
 
+    # Add neighbors to node information
     for node in network.nodes:
         node['title'] += "<br>Neighbors: <ul>"
         for neighbor in network.neighbors(node['id']):
             node['title'] += '<li>' + class_dict_by_id[neighbor].name + '</li>'
         node['title'] += "</ul>"
 
+    # Display network
     print(network)
     network.show('/Users/gracebrindle/Desktop/si507/final_project/' + politician + '_twitter_network.html')
 
 def main():
     prompt()
-    
     
 if __name__ == "__main__":
     main()
