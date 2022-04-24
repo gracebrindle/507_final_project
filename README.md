@@ -53,6 +53,9 @@ politician.
 
 4. Users may have to reset the file paths in the program to directories on their local computer.
 
+# Data Structures
+The data is represented as a graph using breadth-first search. Vertices consist of politicians’ Twitter accounts and the edges represent Twitter follows. To increase efficiency, the graph is limited to the accounts in the American politician dataset (approximately two thousand) and excludes other accounts. 
+
 # Presentation
 Politicians are color-coded by political party: Democrats are blue, 
 Republicans are red, and third-party politicians are yellow. Edges are color-coded
