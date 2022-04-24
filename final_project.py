@@ -289,7 +289,7 @@ def create_network(politician):
     Returns
     -------
     None'''
-    
+
     # Initialize local variables
     visited_set = set()
     queue = deque()
@@ -388,7 +388,7 @@ def create_network(politician):
 
                 queue.append(object)
 
-                network.add_edge(current_politician.account_id, object.account_id)
+            network.add_edge(current_politician.account_id, object.account_id)
 
     # Add neighbors to node information
     for node in network.nodes:
