@@ -27,8 +27,7 @@ The program will automatically import this file and correctly assign the
 variables to their proper values. 
 
 # Instructions
-1. Create the TwitterKeys.py file if you have not already (see API 
-Authentication for details)
+1. Create the TwitterKeys.py file if you have not already
 
 2. Run the final_project.py program using command line
 
@@ -36,7 +35,7 @@ Authentication for details)
 enter the first and last name of the relevant politician in title case 
 (e.g. Joe Biden)
 
-4. The program will download an HTML file with the results to a local 
+4. Once the search is complete, the program will download an HTML file with the results to a local 
 directory. It will create an HTML file for each search.
 
 5. Open the HTML file in your browser to see the graph.
@@ -46,11 +45,17 @@ directory. It will create an HTML file for each search.
 politician_dataset.csv for reference)
 
 2. The Twitter API can only conduct 15 requests per 15 minute window. As a 
-result, the program can only be run once every 15 minutes. It also only 
+result, the program can only be run once every 15 minutes. 
+
+3. Due to the requests limit, the program will only 
 conducts a breadth-first search for the first 14 friends of a given 
 politician.
 
+4. Users may have to reset the file paths in the program to directories on their local computer.
+
 # Presentation
 Politicians are color-coded by political party: Democrats are blue, 
-Republicans are red, and third-party politicians are yellow. Click on a 
-node to learn more about the politician.
+Republicans are red, and third-party politicians are yellow. Edges are color-coded
+based on the node they are coming from. 
+
+Click on a node to learn more about the politician. Senators contain additional metadata including an ideology score and a leadership score. These two scores are based on an analysis completed by GovTrack and range from 0 (least conservative; least leadership) to 1 (most conservative, most leadership). 
