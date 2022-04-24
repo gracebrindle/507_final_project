@@ -360,12 +360,12 @@ def create_network(politician):
                                     '<li>Profile: https://www.govtrack.us/congress/members/' + object.govtrack_id + '</li>'
                                 )
             else:
-                title_to_display = ('<h1>' + current_politician.name+'</h1>' + 
+                title_to_display = ('<h1>' + object.name+'</h1>' + 
                                     '<ul>' + 
-                                    '<li>Twitter username: '+ current_politician.twitter_username + '</li>'
-                                    '<li>Party: ' + current_politician.political_party + '</li>'
-                                    '<li>Age: ' + current_politician.age + '</li>'
-                                    '<li>Gender: ' + current_politician.sex + '</li>')
+                                    '<li>Twitter username: '+ object.twitter_username + '</li>'
+                                    '<li>Party: ' + object.political_party + '</li>'
+                                    '<li>Age: ' + object.age + '</li>'
+                                    '<li>Gender: ' + object.sex + '</li>')
 
             if object.account_id not in visited_set:
                 network.add_node(object.account_id, 
