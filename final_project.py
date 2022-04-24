@@ -16,10 +16,6 @@ with open("/Users/gracebrindle/Desktop/si507/final_project/senate_sponsorship_an
     reader = csv.reader(f)
     senate_data = list(reader) 
 
-with open("/Users/gracebrindle/Desktop/si507/final_project/house_sponsorship_analysis.csv", newline='') as f:
-    reader = csv.reader(f)
-    house_data = list(reader) 
-
 # Initialize global variables
 bearer_token = TwitterKeys.Bearer_Token
 client_key = TwitterKeys.API_Key
@@ -37,6 +33,10 @@ CACHE_DICT = {}
 class_dict_by_name = {}
 class_dict_by_id = {}
 
+senate_dict = {}
+for data in senate_data[1:]:
+    senate_dict[data[4]] = data[0], data[1], data[2], data[3], data[5] 
+
 class Politician:
     def __init__(self, name="No Name", twitter_username="No username", account_id = "No ID", sex="Unknown", birthplace="United States of America", age="Unknown", political_party="Unknown"):
          self.name = name
@@ -46,6 +46,16 @@ class Politician:
          self.birthplace = birthplace
          self.age = age
          self.political_party = political_party
+
+         if name in senate_dict:
+            self.govtrack_id = senate_dict[name][0]
+            self.ideology = senate_dict[name][1]
+            self.leadership = senate_dict[name][2]
+            self.state = senate_dict[name][3]
+            self.description = senate_dict[name][4]
+            self.position = "United States Senator"
+         else:
+            self.position = "Unknown"
 
 
 # Loop through the data and create a Politician object for each row of data
@@ -283,7 +293,6 @@ def create_network(politician):
     # Add arrows to edges going in the direction of 'to'
     # Change color of edge when selected to something more visible
     # Change color of edges to white
-    # Add ideology scale and state
     # Differentiate primary politicians from friends (node border?)
 
     while queue and count < 15:
@@ -298,17 +307,33 @@ def create_network(politician):
         else:
             central_node_color = "yellow"
 
-
-        network.add_node(current_politician.account_id,
-                        label=current_politician.name,
-                        color=central_node_color,
-                        borderWidth='3px',
-                        title='<h1>' + current_politician.name+'</h1>' + 
+        if current_politician.position == "United States Senator":
+            title_to_display = ('<h1>' + current_politician.name+'</h1>' + 
+                                '<ul>' + 
+                                '<li>Twitter username: '+ current_politician.twitter_username + '</li>'
+                                '<li>Position: '+ current_politician.position + '</li>'
+                                '<li>State: '+ current_politician.state + '</li>'
+                                '<li>Party: ' + current_politician.political_party + '</li>'
+                                '<li>Description: ' + current_politician.description + '</li>'
+                                '<li>Leadership Score: ' + current_politician.leadership + '</li>'
+                                '<li>Ideology Score: ' + current_politician.ideology + '</li>'
+                                '<li>Age: ' + current_politician.age + '</li>'
+                                '<li>Gender: ' + current_politician.sex + '</li>'
+                                '<li>Profile: https://www.govtrack.us/congress/members/' + current_politician.govtrack_id + '</li>'
+                                )
+        else:
+            title_to_display = ('<h1>' + current_politician.name+'</h1>' + 
                                 '<ul>' + 
                                 '<li>Twitter username: '+ current_politician.twitter_username + '</li>'
                                 '<li>Party: ' + current_politician.political_party + '</li>'
                                 '<li>Age: ' + current_politician.age + '</li>'
                                 '<li>Gender: ' + current_politician.sex + '</li>')
+
+        network.add_node(current_politician.account_id,
+                        label=current_politician.name,
+                        color=central_node_color,
+                        borderWidth='3px',
+                        title=title_to_display)
     
         visited_set.add(current_politician.account_id)
 
@@ -320,29 +345,47 @@ def create_network(politician):
             else:
                 node_color = "yellow"
 
+            if object.position == "United States Senator":
+                title_to_display = ('<h1>' + object.name+'</h1>' + 
+                                    '<ul>' + 
+                                    '<li>Twitter username: '+ object.twitter_username + '</li>'
+                                    '<li>Position: '+ object.position + '</li>'
+                                    '<li>State: '+ object.state + '</li>'
+                                    '<li>Party: ' + object.political_party + '</li>'
+                                    '<li>Description: ' + object.description + '</li>'
+                                    '<li>Leadership Score: ' + object.leadership + '</li>'
+                                    '<li>Ideology Score: ' + object.ideology + '</li>'
+                                    '<li>Age: ' + object.age + '</li>'
+                                    '<li>Gender: ' + object.sex + '</li>'
+                                    '<li>Profile: https://www.govtrack.us/congress/members/' + object.govtrack_id + '</li>'
+                                )
+            else:
+                title_to_display = ('<h1>' + current_politician.name+'</h1>' + 
+                                    '<ul>' + 
+                                    '<li>Twitter username: '+ current_politician.twitter_username + '</li>'
+                                    '<li>Party: ' + current_politician.political_party + '</li>'
+                                    '<li>Age: ' + current_politician.age + '</li>'
+                                    '<li>Gender: ' + current_politician.sex + '</li>')
+
             if object.account_id not in visited_set:
                 network.add_node(object.account_id, 
-                                label=object.name, 
-                                color=node_color,
-                                title='<h1>' + object.name+'</h1>' + 
-                                '<ul>' + 
-                                '<li>Twitter username: '+ object.twitter_username + '</li>'
-                                '<li>Party: ' + object.political_party + '</li>'
-                                '<li>Age: ' + object.age + '</li>'
-                                '<li>Gender: ' + object.sex + '</li>')
+                                    label=object.name, 
+                                    color=node_color,
+                                    title=title_to_display,
+                                    labelHighlightBold = True)
 
                 queue.append(object)
 
-            network.add_edge(current_politician.account_id, object.account_id)
+                network.add_edge(current_politician.account_id, object.account_id)
 
     for node in network.nodes:
-        # node['size'] = str(len(network.neighbors(node['id'])) * 10) + 'px',
         node['title'] += "<br>Neighbors: <ul>"
         for neighbor in network.neighbors(node['id']):
             node['title'] += '<li>' + class_dict_by_id[neighbor].name + '</li>'
         node['title'] += "</ul>"
 
     print(network)
+    network.show_buttons(filter_=True)
     network.show('/Users/gracebrindle/Desktop/si507/final_project/' + politician + '_twitter_network.html')
 
 def main():

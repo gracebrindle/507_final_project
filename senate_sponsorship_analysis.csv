@@ -1,0 +1,102 @@
+ID,ideology,leadership,state,name,description
+400013,0.212711095,0.63515331,WI,Tammy Baldwin,rank-and-file Democrat
+412251,0.919987557,0.527673599,WY,John Barrasso,conservative Republican
+412330,0.315450725,0.399706402,CO,Michael Bennet,rank-and-file Democrat
+400032,0.98928309,0.408703947,TN,Marsha Blackburn,conservative Republican
+412490,0.110274886,0.635917476,CT,Richard Blumenthal,progressive Democrat
+400034,0.793502171,0.532006746,MO,Roy Blunt,rank-and-file Republican
+412598,0.096007522,0.726480441,NJ,Cory Booker,progressive Democratic leader
+400040,0.887056536,0.482091035,AR,John Boozman,rank-and-file Republican
+412839,0.970909464,0.46331487,IN,Mike Braun,conservative Republican
+400050,0.135065067,0.754738465,OH,Sherrod Brown,progressive Democratic leader
+400054,0.693963617,0.456586537,NC,Richard Burr,centrist Republican
+300018,0.294491379,0.440728427,WA,Maria Cantwell,rank-and-file Democrat
+400061,0.759035946,0.365111378,WV,Shelley Moore Capito,rank-and-file Republican
+400064,0.251284422,0.895767048,MD,Ben Cardin,moderate Democratic leader
+300019,0.325462354,0.396301266,DE,Tom Carper,moderate Democratic follower
+412246,0.262065464,0.695058704,PA,Bob Casey,rank-and-file Democrat
+412269,0.80822876,0.499512947,LA,Bill Cassidy,rank-and-file Republican
+300025,0.565294549,0.703261462,ME,Susan Collins,centrist Republican leader
+412390,0.400652858,0.717446442,DE,Chris Coons,centrist Democratic leader
+300027,0.90834127,0.892243125,TX,John Cornyn,moderate Republican leader
+412681,0.269953872,0.540667242,NV,Catherine Cortez Masto,rank-and-file Democrat
+412508,0.977794924,0.397929569,AR,Tom Cotton,conservative Republican
+412555,0.96601916,0.249207294,ND,Kevin Cramer,lonley conservative Republican follower
+300030,0.874580472,0.53629551,ID,Mike Crapo,rank-and-file Republican
+412573,1,0.596727883,TX,Ted Cruz,conservative Republican leader
+412549,0.926527096,0.563902203,MT,Steve Daines,conservative Republican
+412533,0.213369526,0.553051458,IL,Tammy Duckworth,rank-and-file Democrat
+300038,0.14802922,0.772697943,IL,Dick Durbin,progressive Democratic leader
+412667,0.945640415,0.598320218,IA,Joni Ernst,conservative Republican leader
+300043,0.210054268,0.713166418,CA,Dianne Feinstein,rank-and-file Democrat
+412556,0.817489872,0.317812749,NE,Deb Fischer,rank-and-file Republican
+412223,0.0738288,0.654716246,NY,Kirsten Gillibrand,progressive Democrat
+300047,0.69735279,0.679985452,SC,Lindsey Graham,centrist Republican leader
+300048,0.756242163,0.817596029,IA,Chick Grassley,moderate Republican leader
+456798,0.768520607,0.210304334,TN,Bill Hagerty,moderate Republican follower
+412678,0.105286491,0.431514517,CA,Kamala Harris,progressive Democrat
+412680,0.396985036,0.359287682,NH,Maggie Hassan,centrist Democratic follower
+412840,0.856764835,0.199805276,MO,Josh Hawley,moderate Republican follower
+412281,0.286004812,0.397653575,NM,Martin Heinrich,moderate Democratic follower
+456797,0.421168652,0.042675201,CO,John Hickenlooper,centrist Democratic follower
+412200,0.127405386,0.520728159,HI,Mazie Hirono,progressive Democrat
+412494,0.868858047,0.418690622,ND,John Hoeven,rank-and-file Republican
+412743,0.909421533,0.235082079,MS,Cindy Hyde-Smith,moderate Republican follower
+300055,0.98050184,0.46520199,OK,Jim Inhofe,conservative Republican
+412496,0.800888861,0.424912084,WI,Ron Johnson,rank-and-file Republican
+412582,0.251321758,0.588613811,VA,Tim Kaine,rank-and-file Democrat
+456794,0.498245546,0.092181667,AZ,Mark Kelly,centrist Democratic follower
+412679,0.889435558,0.354962065,LA,John Kennedy,rank-and-file Republican
+412545,0.48551197,0.312382998,ME,Angus King,lonely centrist Independent
+412242,0.204622392,0.876575599,MN,Amy Klobuchar,moderate Democratic leader
+412464,0.951964777,0.359792095,OK,James Lankford,conservative Republican
+300065,0.217097935,0.377640796,VT,Patrick Leahy,moderate Democratic follower
+412495,0.795867527,0.539359127,UT,Mike Lee,rank-and-file Republican
+412293,0.319078984,0.167262697,NM,Ben Ray Lujan,moderate Democratic follower
+412294,0.772816076,0.088846269,WY,Cynthia Lummis,moderate Republican follower
+412391,0.582184303,0.45948384,WV,Joe Manchin,centrist Democrat
+400253,0.070142551,0.811539119,MA,Ed Markey,progressive Democratic leader
+412704,0.794040311,0.261881273,KS,Roger Marshall,rank-and-file Republican
+300072,0.700360687,0.522959816,KY,Mitch McConnell,centrist Republican
+400272,0.263857689,1,NJ,Bob Menendez,moderate Democratic leader
+412325,0.04040201,0.623727111,OR,Jeff Merkley,progressive Democrat
+400284,0.828404725,0.534213189,KS,Herry Moran,rank-and-file Republican
+300075,0.565878635,0.622480859,AK,Lisa Murkowski,centrist Republican leader
+412194,0.203010319,0.428241174,CT,Chris Murphy,rank-and-file Democrat
+300076,0.177363691,0.636425421,WA,Patty Murray,rank-and-file Democrat
+456857,0.396195928,0.120859904,GA,Jon Ossoff,moderate Democratic follower
+456856,0.201368463,0.22486193,CA,Alex Padilla,moderate Democratic follower
+412492,0.728803038,0.347142023,KY,Rand Paul,rank-and-file Republican
+412305,0.430309962,0.52186097,MI,Gary Peters,centrist Democrat
+400325,0.655193311,0.645848556,OH,Rob Portman,centrist Republican leader
+300081,0.159901533,0.485545796,RI,Jack Reed,rank-and-file Democrat
+412322,0.885387016,0.478206119,ID,Jim Risch,rank-and-file Republican
+412841,0.689822611,0.084025614,UT,Mitt Romney,centrist Republican follower 
+412715,0.347874213,0.4434159,NV,Jacky Rosen,rank-and-file Democrat
+412669,0.919612142,0.345326219,SD,Mike Rounds,rank-and-file Republican
+412491,0.904726621,0.958083536,FL,Marco Rubio,moderate Republican leader
+400357,0,0.289950857,VT,Bernie Sanders,lonely left-leaning Independent
+412671,0.779922647,0.254525856,NE,Ben Sasse,moderate Republican follower
+412507,0.258392923,0.668913281,HI,Brian Schatz,rank-and-file Democrat
+300087,0.269537921,0.502036266,NY,Chuck Schumer,rank-and-file Democrat
+412838,0.950568279,0.330839379,FL,Rick Scott,conservative Republican
+412471,0.86937037,0.596157911,SD,Tim Scott,moderate Republican leader
+412323,0.341789035,0.695134677,NH,Jeanne Shaheen,rank-and-file Democrat
+300089,0.659459578,0,AL,Richard Shelby,centrist Republican follower 
+412509,0.633126412,0.304039898,AZ,Kyrsten Sinema,centrist Democratic follower
+412742,0.189592447,0.465689351,MN,Tina Smith,rank-and-file Democrat
+300093,0.257485644,0.582827467,MI,Debbie Stabenow,rank-and-file Democrat
+412665,0.756691227,0.422640637,AK,Dan Sullivan,rank-and-file Republican
+412244,0.505078222,0.717392154,MT,Jon Tester,centrist Democratic leader
+400546,0.869611043,0.562115668,SD,John Thune,rank-and-file Republican
+412668,0.91381855,0.381353612,NC,Thom Tillis,rank-and-file Republican
+400408,0.724113295,0.553962154,PA,Pat Toomey,centrist Republican
+456796,0.724074861,0.053274821,AL,Tommy Tuberville,centrist Republican follower 
+400415,0.155048589,0.459012165,MD,Chris Van Hollen,rank-and-file Democrat
+412321,0.408129369,0.574169481,VA,Mark Warner,centrist Democrat
+456858,0.504522024,0.504289139,GA,Raphael Warnock,centrist Democrat
+412542,0.16668163,0.719665932,MA,Elizabeth Warren,moderate Democratic leader
+412247,0.189131798,0.520871567,RI,Sheldon Whitehouse,rank-and-file Democrat
+400432,0.868343419,0.656672139,MS,Roger Wicker,moderate Republican leader
+300100,0.153947143,0.65930955,OR,Ron Wyden,progressive Democrat
+412428,0.761094554,0.503860611,IN,Todd Young,rank-and-file Republican
