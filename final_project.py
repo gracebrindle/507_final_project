@@ -47,6 +47,7 @@ class Politician:
          self.age = age
          self.political_party = political_party
 
+        # Add additional information if the politician is a senator
          if name in senate_dict:
             self.govtrack_id = senate_dict[name][0]
             self.ideology = senate_dict[name][1]
@@ -222,9 +223,12 @@ def prompt():
 
     if politician == "exit":
         exit()
-    
-    else:
+    elif politician in class_dict_by_name:
         create_network(politician)
+    else:
+        print("")
+        print("Error: Could not locate the politician's Twitter account. Please re-enter the politician's name")
+        prompt()
 
 # Search for the network of a particular politician
 def search(politician):
@@ -242,43 +246,35 @@ def search(politician):
         
     politician_object
         the Politician object that is connected to the input politician'''
+
+    print("")
+    print("Commencing search for " + politician + "...")
+    print("")
+
+    # Fetch a list of friends from the Twitter API using the account ID
+    politician_id = class_dict_by_name[politician]
+    politician_object = class_dict_by_id[politician_id]
+    print("Twitter account located: " + politician_id)
+    friend_results = search_following(str(politician_id))
+
+    # Filter the friends by accounts that are in the dataset
+    friend_ids = []
+    for account_id in friend_results["ids"]:
+        if str(account_id) in class_dict_by_id:
+            friend_ids.append(account_id)
+
+    # Convert the friend IDs into objects and store them in a list
+    friend_objects = []
+    for id in friend_ids:
+        friend_objects.append(class_dict_by_id[str(id)])
     
-    # Verify that the politician is in the dataset
-    if politician in class_dict_by_name:
+    print("")
+    print(politician + " follows:")
+    for friend in friend_objects:
+        print(friend.name + ", " + friend.political_party)
 
-        print("")
-        print("Commencing search for " + politician + "...")
-        print("")
-
-        # Fetch a list of friends from the Twitter API using the account ID
-        politician_id = class_dict_by_name[politician]
-        politician_object = class_dict_by_id[politician_id]
-        print("Twitter account located: " + politician_id)
-        friend_results = search_following(str(politician_id))
-
-        # Filter the friends by accounts that are in the dataset
-        friend_ids = []
-        for account_id in friend_results["ids"]:
-            if str(account_id) in class_dict_by_id:
-                friend_ids.append(account_id)
-
-        # Convert the friend IDs into objects and store them in a list
-        friend_objects = []
-        for id in friend_ids:
-            friend_objects.append(class_dict_by_id[str(id)])
-        
-        print("")
-        print(politician + " follows:")
-        for friend in friend_objects:
-            print(friend.name + ", " + friend.political_party)
-
-        return friend_objects, politician_object
-        
-    else:
-        print("")
-        print("Error: Could not locate the politician's Twitter account. Please re-enter the politician's name")
-        print("")
-        prompt()
+    return friend_objects, politician_object
+    
 
 def create_network(politician):
     visited_set = set()
